@@ -25,25 +25,25 @@ public class Main2Activity extends Activity {
     int id = 0;
 
     Button IM1;
+    private String action;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        action = getIntent().getStringExtra("Action");
+
         setContentView(R.layout.activity_main2);
         if(getIntent().getBooleanExtra("Exit me",false)) {
             finish();
             return; // add this to prevent from doing unnecessary stuffs
         }
+
         IM1 = (Button)findViewById(R.id.closeButton);
-        final List<String> list = new ArrayList<String>();
-        list.add("Double tap on the back of the phone");
-        list.add("Tap on the back of the phone");
-        list.add("Tap on the phone on its side");
 
         IM1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(
                         Main2Activity.this);
@@ -76,13 +76,15 @@ public class Main2Activity extends Activity {
 
 
         final Spinner sp = (Spinner) findViewById(R.id.spinner2);
-        ArrayAdapter<String> adp = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, list);
-        adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sp.setAdapter(adp);
+        final GestureType[] types = GestureType.getAllPublicGestureTypes();
+        final String[] gestureNames = new String[types.length];
+        for (int i = 0; i < types.length; i++) {
+            gestureNames[i] = GestureType.getDisplayName(types[i]);
+        }
+        sp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, gestureNames));
 
         prefs = getSharedPreferences(prefName,0);
-        id = prefs.getInt("last_val", 0);
+        id = prefs.getInt(action, 0);
         sp.setSelection(id);
 
         sp.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -91,17 +93,7 @@ public class Main2Activity extends Activity {
                                        int pos, long arg3) {
                 // TODO Auto-generated method stub
 
-                prefs = getSharedPreferences(prefName, MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-
-                //---save the values in the EditText view to preferences---
-                editor.putInt("last_val", pos);
-
-                //---saves the values---
-                editor.commit();
-
-                Toast.makeText(getBaseContext(), sp.getSelectedItem().toString(),
-                        Toast.LENGTH_SHORT).show();
+                saveActionPreference(pos, sp);
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -112,5 +104,18 @@ public class Main2Activity extends Activity {
 
     }
 
+    private void saveActionPreference(int pos, Spinner sp) {
+        prefs = getSharedPreferences(prefName, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        //---save the values in the EditText view to preferences---
+        editor.putInt(action, pos);
+
+        //---saves the values---
+        editor.commit();
+
+        Toast.makeText(getBaseContext(), sp.getSelectedItem().toString(),
+                Toast.LENGTH_SHORT).show();
+    }
 
 }

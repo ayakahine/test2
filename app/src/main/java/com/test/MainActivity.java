@@ -15,8 +15,9 @@ MainActivity extends Activity {
         lampButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toy = new Intent(MainActivity.this,Main1Activity.class);
-                startActivity(toy);
+                Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                intent.putExtra("Action", "Light");
+                startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
         });
@@ -27,8 +28,9 @@ MainActivity extends Activity {
         alarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toy = new Intent(MainActivity.this,Main2Activity.class);
-                startActivity(toy);
+                Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                intent.putExtra("Action", "Alarm");
+                startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
@@ -39,7 +41,8 @@ MainActivity extends Activity {
         muteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,Main3Activity.class);
+                Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                intent.putExtra("Action", "Mute");
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
             }
