@@ -11,64 +11,33 @@
     android:background="#FFFFFF"
     tools:context="com.example.fatimakahine.myapplication.MainActivity">
 
-    <Button
-        android:text="Light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="42dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="91dp"
-        android:drawableTop="@drawable/lamp"
-        android:background="#FFFFFF"
-        android:id="@+id/lampButton"
-        android:onClick="LightButtonClick" />
+        android:layout_alignParentTop="true">
 
-    <Button
-        android:text="ALARM"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/alarmButton"
-        android:drawableTop="@drawable/alarm1"
-        android:background="#FFFFFF"
-        android:onClick="AlarmButtonClick"
-        android:layout_marginRight="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_alignBaseline="@+id/lampButton"
-        android:layout_alignBottom="@+id/lampButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/layout" >
 
-    <Button
-        android:text="MUTE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/muteButton"
-        android:drawableTop="@drawable/mute1"
-        android:background="#FFFFFF"
-        android:onClick="MuteButtonClick"
-        android:layout_below="@+id/alarmButton"
-        android:layout_toLeftOf="@+id/alarmButton"
-        android:layout_toStartOf="@+id/alarmButton"
-        android:layout_marginTop="85dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose a button to configure"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="23dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:typeface="normal"
-        android:fontFamily="sans-serif"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:lineSpacingExtra="8sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose a button to configure"
+                android:id="@+id/textView"
+                android:typeface="normal"
+                android:fontFamily="sans-serif"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:lineSpacingExtra="8sp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

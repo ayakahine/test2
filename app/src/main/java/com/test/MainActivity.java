@@ -5,61 +5,48 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class
 MainActivity extends Activity {
     public Button lampButton,alarmButton,muteButton;
 
-    public void LightButtonClick() {
-        lampButton = (Button) findViewById(R.id.lampButton);
-        lampButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,Main2Activity.class);
-                intent.putExtra("Action", "Light");
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-            }
-        });
-    }
 
-    public void AlarmButtonClick() {
-        alarmButton = (Button) findViewById(R.id.alarmButton);
-        alarmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,Main2Activity.class);
-                intent.putExtra("Action", "Alarm");
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            }
-        });
-    }
 
-    public void MuteButtonClick() {
-        muteButton = (Button) findViewById(R.id.muteButton);
-        muteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,Main2Activity.class);
-                intent.putExtra("Action", "Mute");
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
-            }
-        });
-    }
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionTriggers.ActionType[] types = ActionTriggers.ActionType.getAllPublicActionTypes();
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
+
+        for (final ActionTriggers.ActionType type : types) {
+            Button b = new Button(this);
+            b.setText(ActionTriggers.ActionType.getDisplayName(type));
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                    intent.putExtra("Action", type.name());
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+            });
+
+            layout.addView(b);
+
+        }
+
         if(getIntent().getBooleanExtra("Exit me",false)) {
             finish();
             return; // add this to prevent from doing unnecessary stuffs
         }
-        AlarmButtonClick();
-        MuteButtonClick();
-        LightButtonClick();
+
     }
 }

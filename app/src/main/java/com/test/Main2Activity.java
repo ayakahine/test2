@@ -6,12 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,24 +24,79 @@ import java.util.List;
 public class Main2Activity extends Activity {
 
     private SharedPreferences prefs;
-    private String prefName = "spinner_value2";
-    int id = 0;
+    private String prefName = "spinner";
+    Integer id = 0;
 
     Button IM1;
     private String action;
+    private GestureType[] gestureTypes = GestureType.getAllPublicGestureTypes();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        action = getIntent().getStringExtra("Action");
-
         setContentView(R.layout.activity_main2);
+
+        action = getIntent().getStringExtra("Action");
+        ActionTriggers.ActionType type = ActionTriggers.ActionType.valueOf(action);
+
+        prefs = getSharedPreferences(prefName, MODE_PRIVATE);
+        id = prefs.getInt(action, -1);
+
+        setActionDescription(type);
+
         if(getIntent().getBooleanExtra("Exit me",false)) {
             finish();
             return; // add this to prevent from doing unnecessary stuffs
         }
 
+        configureCloseButton();
+
+        configureSpinner();
+
+    }
+
+    private void configureSpinner() {
+        final Spinner sp = (Spinner) findViewById(R.id.spinner2);
+
+        final String[] gestureNames = new String[gestureTypes.length+1];
+        gestureNames[0] = "";
+        for (int i = 0; i < gestureTypes.length; i++) {
+            gestureNames[i+1] = GestureType.getDisplayName(gestureTypes[i]);
+        }
+        sp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, gestureNames));
+
+        sp.setSelection(id+1);
+        setGestureDescription(id);
+
+        sp.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int pos, long arg3) {
+                // TODO Auto-generated method stub
+                saveActionPreference(pos-1, sp);
+                setGestureDescription(pos-1);
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+    }
+
+    @NonNull
+    private void setGestureDescription(int pos) {
+        final TextView gestureDescription = (TextView) findViewById(R.id.gestureDescription);
+        if (pos != -1) {
+            gestureDescription.setText(GestureType.getDescription(gestureTypes[pos]));
+        } else {
+            gestureDescription.setText("");
+        }
+    }
+
+    private void configureCloseButton() {
         IM1 = (Button)findViewById(R.id.closeButton);
 
         IM1.setOnClickListener(new View.OnClickListener() {
@@ -58,8 +116,6 @@ public class Main2Activity extends Activity {
                                 intent.putExtra("Exit me", true);
                                 startActivity(intent);
                                 finish();
-
-
                             }
                         });
                 builder.setNegativeButton("No",
@@ -73,49 +129,51 @@ public class Main2Activity extends Activity {
                 builder.show();
             }
         });
+    }
 
-
-        final Spinner sp = (Spinner) findViewById(R.id.spinner2);
-        final GestureType[] types = GestureType.getAllPublicGestureTypes();
-        final String[] gestureNames = new String[types.length];
-        for (int i = 0; i < types.length; i++) {
-            gestureNames[i] = GestureType.getDisplayName(types[i]);
-        }
-        sp.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, gestureNames));
-
-        prefs = getSharedPreferences(prefName,0);
-        id = prefs.getInt(action, 0);
-        sp.setSelection(id);
-
-        sp.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int pos, long arg3) {
-                // TODO Auto-generated method stub
-
-                saveActionPreference(pos, sp);
-            }
-
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-
+    private void setActionDescription(ActionTriggers.ActionType type) {
+        TextView actionDescription1 = (TextView) findViewById(R.id.actionDescription);
+        actionDescription1.setText(ActionTriggers.ActionType.getDescription(type));
     }
 
     private void saveActionPreference(int pos, Spinner sp) {
+
+        System.out.println("Save preferences");
+
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
+
         SharedPreferences.Editor editor = prefs.edit();
 
-        //---save the values in the EditText view to preferences---
-        editor.putInt(action, pos);
+        int previousGestureType = prefs.getInt(action, -1);
+
+        if (pos != -1) {
+            String gestureType = gestureTypes[pos].name();
+            String previousAction = prefs.getString(gestureType, null);
+
+            //--remove previously saved connected gesture---
+            editor.remove(previousAction);
+
+
+            //-- Add a Toast to say which action was connected to this gesture--
+            //-- remove close button
+
+            //---save the values in the EditText view to preferences---
+            editor.putInt(action, pos);
+            editor.putString(gestureType,action);
+
+        } else {
+            //--remove previously saved connected gesture---
+            editor.remove(action);
+
+            //---save the values in the EditText view to preferences---
+            editor.putInt(action, pos);
+            if (previousGestureType != -1) {
+                editor.remove(gestureTypes[previousGestureType].name());
+            }
+        }
 
         //---saves the values---
-        editor.commit();
-
-        Toast.makeText(getBaseContext(), sp.getSelectedItem().toString(),
-                Toast.LENGTH_SHORT).show();
+        editor.apply();
     }
 
 }
