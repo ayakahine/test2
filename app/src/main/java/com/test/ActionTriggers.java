@@ -75,6 +75,7 @@ public class ActionTriggers implements TextToSpeech.OnInitListener {
         static final HashMap<ActionType, String> displayNames = new HashMap<ActionType, String>() {{
             put(FLASHLIGHT, "Flashlight");
             put(TTSTIME, "TTS current time");
+            put(TTSNEXTALARM,"TTS next alarm");
             put(PLAY, "Play");
             put(PAUSE, "pause");
             put(PREVIOUS, "Previous track");
@@ -107,8 +108,9 @@ public class ActionTriggers implements TextToSpeech.OnInitListener {
         }
 
         public static String getDisplayName(ActionType type) {
-            return descriptions.get(type);
+            return displayNames.get(type);
         }
+
         }
 
     public void triggerAction(ActionType action){
@@ -219,7 +221,7 @@ public class ActionTriggers implements TextToSpeech.OnInitListener {
     }
 
     public void doNotDisturb(){
-        mNotificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE);
+        //--mNotificationManager.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_NONE);--
     }
 
     //for RESTRequest: need internet permission (turn on via apps -> this app -> permissions)

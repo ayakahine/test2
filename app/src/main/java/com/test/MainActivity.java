@@ -9,12 +9,6 @@ import android.widget.LinearLayout;
 
 public class
 MainActivity extends Activity {
-    public Button lampButton,alarmButton,muteButton;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +35,6 @@ MainActivity extends Activity {
 
             layout.addView(b);
 
-        }
-
-        if(getIntent().getBooleanExtra("Exit me",false)) {
-            finish();
-            return; // add this to prevent from doing unnecessary stuffs
         }
 
     }

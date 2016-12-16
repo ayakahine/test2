@@ -46,13 +46,6 @@ public class Main2Activity extends Activity {
 
         setActionDescription(type);
 
-        if(getIntent().getBooleanExtra("Exit me",false)) {
-            finish();
-            return; // add this to prevent from doing unnecessary stuffs
-        }
-
-        configureCloseButton();
-
         configureSpinner();
 
     }
@@ -96,40 +89,7 @@ public class Main2Activity extends Activity {
         }
     }
 
-    private void configureCloseButton() {
-        IM1 = (Button)findViewById(R.id.closeButton);
 
-        IM1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(
-                        Main2Activity.this);
-                builder.setTitle("Exit Application");
-                builder.setMessage("Are you sure you want to exit?:(");
-                builder.setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                Intent intent = new Intent(Main2Activity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                intent.putExtra("Exit me", true);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                builder.setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-
-
-                            }
-                        });
-                builder.show();
-            }
-        });
-    }
 
     private void setActionDescription(ActionTriggers.ActionType type) {
         TextView actionDescription1 = (TextView) findViewById(R.id.actionDescription);
@@ -155,7 +115,9 @@ public class Main2Activity extends Activity {
 
 
             //-- Add a Toast to say which action was connected to this gesture--
-            //-- remove close button
+            Toast toast = Toast.makeText(getApplicationContext(),previousAction + " was connected to this gesture",Toast.LENGTH_SHORT);
+            toast.show();
+
 
             //---save the values in the EditText view to preferences---
             editor.putInt(action, pos);
@@ -173,7 +135,7 @@ public class Main2Activity extends Activity {
         }
 
         //---saves the values---
-        editor.apply();
+        editor.commit();
     }
 
 }

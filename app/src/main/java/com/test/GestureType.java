@@ -35,6 +35,7 @@ public enum GestureType {
         }
 
         public static String getDisplayName(GestureType type) {
+
             return displayNames.get(type);
         }
 
