@@ -27,7 +27,6 @@ public class Main2Activity extends Activity {
     private String prefName = "spinner";
     Integer id = 0;
 
-    Button IM1;
     private String action;
     private GestureType[] gestureTypes = GestureType.getAllPublicGestureTypes();
 

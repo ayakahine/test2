@@ -75,7 +75,7 @@ public class ActionTriggers implements TextToSpeech.OnInitListener {
         static final HashMap<ActionType, String> displayNames = new HashMap<ActionType, String>() {{
             put(FLASHLIGHT, "Flashlight");
             put(TTSTIME, "TTS current time");
-            put(TTSNEXTALARM,"TTS next alarm");
+            put(TTSNEXTALARM, "TTS next alarm");
             put(PLAY, "Play");
             put(PAUSE, "pause");
             put(PREVIOUS, "Previous track");
@@ -98,6 +98,19 @@ public class ActionTriggers implements TextToSpeech.OnInitListener {
             put(DISMISSALARM, "Turns off incoming alarm");
         }};
 
+        static final HashMap<ActionType, Integer> pictures = new HashMap<ActionType, Integer>() {{
+            put(FLASHLIGHT, R.drawable.flashlight);
+            put(TTSTIME, R.drawable.clock);
+            put(TTSNEXTALARM, R.drawable.alarm);
+            put(PLAY, R.drawable.play);
+            put(PAUSE, R.drawable.pause);
+            put(PREVIOUS, R.drawable.previous);
+            put(NEXT, R.drawable.next);
+            put(DONOTDISTURB, R.drawable.do_not_disturb);
+            put(DISCONNECTCALL, R.drawable.hangup);
+            put(DISMISSALARM, R.drawable.alarm_off);
+        }};
+
         public static ActionType[] getAllPublicActionTypes() {
             return new ActionType[]{FLASHLIGHT, TTSTIME, TTSNEXTALARM, PLAY, PAUSE, PREVIOUS,
                     NEXT, DONOTDISTURB, DISCONNECTCALL, DISMISSALARM};
@@ -111,7 +124,10 @@ public class ActionTriggers implements TextToSpeech.OnInitListener {
             return displayNames.get(type);
         }
 
+        public static Integer getPictures(ActionType type) {
+            return pictures.get(type);
         }
+    }
 
     public void triggerAction(ActionType action){
         switch(action){
