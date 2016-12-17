@@ -17,7 +17,7 @@ MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //kujkgub
+
         ActionTriggers.ActionType[] types = ActionTriggers.ActionType.getAllPublicActionTypes();
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
