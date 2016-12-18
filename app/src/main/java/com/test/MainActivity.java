@@ -44,7 +44,7 @@ MainActivity extends Activity {
             });
 
             layout.addView(b);
-            
+
             gesture = getIntent().getStringExtra("Gesture");
 
 
