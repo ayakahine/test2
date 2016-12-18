@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -97,7 +98,7 @@ public class Main2Activity extends Activity {
 
     private void saveActionPreference(int pos, Spinner sp) {
 
-        System.out.println("Save preferences");
+        //--System.out.println("Save preferences");--
 
         prefs = getSharedPreferences(prefName, MODE_PRIVATE);
 
@@ -109,12 +110,20 @@ public class Main2Activity extends Activity {
             String gestureType = gestureTypes[pos].name();
             String previousAction = prefs.getString(gestureType, null);
 
+
+
+            Intent intent2 = new Intent(Main2Activity.this,MainActivity.class);
+            intent2.putExtra("Gesture",gestureType);
+
+            
+
+
             //--remove previously saved connected gesture---
             editor.remove(previousAction);
 
 
             //-- Add a Toast to say which action was connected to this gesture--
-            Toast toast = Toast.makeText(getApplicationContext(),previousAction + " was connected to this gesture",Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(),previousAction + " was connected to " + gestureType, Toast.LENGTH_SHORT);
             toast.show();
 
 
