@@ -46,8 +46,11 @@ MainActivity extends Activity {
             layout.addView(b);
 
 
+            gesture = getIntent().getStringExtra("Gesture");
+
+
             TextView t = new TextView(MainActivity.this);
-            t.setText( " gesture is connected to " + ActionTriggers.ActionType.getDisplayName(type));
+            t.setText(gesture + " gesture is connected to " + ActionTriggers.ActionType.getDisplayName(type));
             layout.addView(t);
 
         }

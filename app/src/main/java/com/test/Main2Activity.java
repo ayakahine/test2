@@ -115,7 +115,7 @@ public class Main2Activity extends Activity {
             Intent intent2 = new Intent(Main2Activity.this,MainActivity.class);
             intent2.putExtra("Gesture",gestureType);
 
-            
+
 
 
             //--remove previously saved connected gesture---
