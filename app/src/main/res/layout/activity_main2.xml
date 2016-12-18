@@ -5,13 +5,11 @@
     android:layout_marginRight="3dp"
     android:layout_weight=".28"
     android:background="#FFFFFF"
-
     android:orientation="horizontal">
+
 
     <Spinner
         android:id="@+id/spinner2"
-
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -94,5 +92,6 @@
         android:paddingTop="40dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/spinner2" />
+
 
 </RelativeLayout>
